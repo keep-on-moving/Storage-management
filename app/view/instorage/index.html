@@ -233,7 +233,7 @@
 
     <!-- Modal add (Ajax Modal)-->
     <div class="modal fade " id="modal-add">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="width: 1070px">
             <div class="modal-content">
                 
                 <div class="modal-header">
@@ -301,11 +301,11 @@
     //add
     function showAjaxModal(){
         jQuery('#modal-add').modal('show', {backdrop: 'static'});
-        
         jQuery.ajax({
             url: "{:url('Instorage/create')}",
             success: function(response)
             {
+                jQuery('#modal-add .modal-body').width(1000);
                 jQuery('#modal-add .modal-body').html(response);
             }
         });
