@@ -18,7 +18,8 @@ class InstorageService
     	empty($data['author'])	|| $where['author']		= 	['like','%'.$data['author'] ];
     	empty($data['sn'])		|| $where['sn'] 		= 	$data['sn'];
     	$where['state'] 		= 	'1';
-        return Order::where($where)->paginate(10);     
+    	$config['page'] = isset($data['page']) ? $data['page'] : 1;
+        return Order::where($where)->paginate(4, false , $config);
     }
 
     // 保存数据

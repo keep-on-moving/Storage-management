@@ -9,7 +9,18 @@
     <!-- Imported scripts on this page -->
     <script src="/static/js/datatables/dataTables.bootstrap.js"></script>
     <script src="/static/js/datatables/yadcf/jquery.dataTables.yadcf.js"></script>
-    <script src="/static/js/datatables/tabletools/dataTables.tableTools.min.js"></script>
+    <script src="/static/js/datatables/tabletools/dataTables.tableTools.min.js"  charset="utf-8"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.19/pagination/four_button.js"></script>
+
+
 
 <div class="page-title">  
     
@@ -51,7 +62,7 @@
                     </div>
 
                     <div class="btn-group dropdown-btn-group pull-right">
-                        
+
                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">过滤某列数据
                             <span class="caret"></span>
                         </button>
@@ -68,7 +79,7 @@
                             </li>
                         </ul>
                         <button class="btn btn-default">导出</button>
-                    </div>                    
+                    </div>
 
                 </div>
                 <div class="panel-body">
@@ -118,23 +129,68 @@
                     <script type="text/javascript">
                     jQuery(document).ready(function($)
                     {
-                        $("#example-2").dataTable({
-                            dom: "t" + "<'row'<'col-xs-6'i><'col-xs-6'p>>",
-                            dom: "t" + "<'row'<'col-xs-6'><'col-xs-6'>>",
-                            aoColumns: [
-                                {bSortable: false},
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                {bSortable: false}
+
+                        $('#example-2').DataTable( {
+                            dom: 'Bfrtip',
+                            bFilter: false,
+                            bPaginate: true, //翻页功能
+                            bLengthChange: true, //改变每页显道示数据数量
+                            bSort: true, //排序功能
+                            bInfo: true,//页脚信息
+                            // pageLength: 4,
+                            paging: true,
+                            buttons: [
+                                'copyHtml5',
+                                'excelHtml5'
                             ],
-                        });
-                        
+                            pagingType: "full_numbers",
+                            language: {
+                                lengthMenu : "每页显示 _MENU_记录",
+                                zeroRecords : "没有匹配的数据",
+                                info : "第_PAGE_页/共 _PAGES_页",
+                                infoEmpty : "没有符合条件的记录",
+                                search : "查找",
+                                infoFiltered : "(从 _MAX_条记录中过滤)",
+                                paginate : { "first" : "首页 ", "last" : "末页", "next" : "下一页", "previous" : "上一页"}
+                            },
+                            //这里是为ajax添加自定义参数，给它添加的属性，它会传给后台
+                            fnServerParams : function (aoData) {
+                                aoData._rand = Math.random();
+                            }
+                        } );
+
+                        // $("#example-2").dataTable({
+                        //     dom: "t" + "<'row'<'col-xs-6'i><'col-xs-6'p>>",
+                        //     dom: "t" + "<'row'<'col-xs-6'><'col-xs-6'>>",
+                        //     aoColumns: [
+                        //         {bSortable: false},
+                        //         null,
+                        //         null,
+                        //         null,
+                        //         null,
+                        //         null,
+                        //         {bSortable: false}
+                        //     ],
+                        // });
+
+                        var table = $('#example-2').DataTable();
+
+
+                        // $("#example-2_next").on("click", function() {
+                        // alert("点击了上一页和下一页的按钮");
+                        // var info = table.page.info();
+                        // $('#example-3_paginate').html( 'Showing page: '+info.page+' of '+info.pages );
+                        // });
+
+                        $('#example-2').on( 'page.dt', function () {
+                            var info = table.page.info();
+                            $('#example-3_paginate').html( 'Showing page: '+info.page+' of '+info.pages );
+                        } );
+
+
                         // Replace checkboxes when they appear
                         var $state = $("#example-2 thead input[type='checkbox']");
-                        
+
                         $("#example-2").on('draw.dt', function()
                         {
                             cbr_replace();
@@ -160,7 +216,7 @@
                     </script>
                     
 
-                    <table class="table table-bordered table-striped" id="example-2">
+                    <table class="table table-bordered table-striped" id="example-2" data-page-length="4">
                         <thead>
                             <tr>
                                 <th class="no-sorting">
