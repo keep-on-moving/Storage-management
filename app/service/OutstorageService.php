@@ -20,7 +20,7 @@ class OutstorageService
 
     	$where['state'] 		= 	2;
 
-        return Order::where($where)->paginate(10);     
+        return Order::where($where)->order('id', 'desc')->paginate(10000);     
     }
 
     // 保存数据
@@ -39,6 +39,9 @@ class OutstorageService
 			$order->desc 		= $param['desc'];
 			$order->author 		= $param['author'];
 			$order->supplier 	= $param['supplier'];
+			$order->outstorage_checker = $param['outstorage_checker'];
+			$order->outstorage_curator = $param['outstorage_curator'];
+			$order->outstorage_consignee = $param['outstorage_consignee'];
 			$order->state 		= 2;
 			$order->add_time	= time();
 
@@ -49,13 +52,18 @@ class OutstorageService
 					$vv[0],
 					$vv[1],
 					$param['num'][$k],
+					$param['time'][$k],
 					$vv[2],
 					$vv[3],
 					$vv[4],
 				 ];
 
 				$product = Product::get([ 'sn' => $vv[0] ]);
-				$product->num -=  $param['num'][$k];
+				$pNum = $product->num;
+				$product->num =  $pNum - $param['num'][$k];
+				if($product->num < 0){
+					return ['error'	=>	100,'msg'	=>	'保存失败:'.$product->name.'仅有'.$pNum.$product->unit."低于要出库个数！"];
+				}
 				$product->save();
 			}
 			$order->res = json_encode( $temp );

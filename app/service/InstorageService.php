@@ -18,8 +18,10 @@ class InstorageService
     	empty($data['author'])	|| $where['author']		= 	['like','%'.$data['author'] ];
     	empty($data['sn'])		|| $where['sn'] 		= 	$data['sn'];
     	$where['state'] 		= 	'1';
-    	$config['page'] = isset($data['page']) ? $data['page'] : 1;
-        return Order::where($where)->paginate(4, false , $config);
+    	// $config['page'] = isset($data['page']) ? $data['page'] : 1;
+		$data = Order::where($where)->order('id', 'desc')->paginate(10000);
+		
+		return $data;
     }
 
     // 保存数据
@@ -37,17 +39,21 @@ class InstorageService
 			$order->type 		= $param['type'];
 			$order->desc 		= $param['desc'];
 			$order->author 		= $param['author'];
+			$order->instorage_checker_a = $param['instorage_checker_a'];
+			$order->instorage_checker_b = $param['instorage_checker_b'];
 			$order->supplier 	= $param['supplier'];
 			$order->state 		= 1;
 			$order->add_time	= time();
 
 			$temp = [];
+
 			foreach ( $param['product'] as $k=>$v) {
 				$vv = explode('_',$v);
 				$temp[] =  [
 					$vv[0],
 					$vv[1],
 					$param['num'][$k],
+					$param['time'][$k],
 					$vv[2],
 					$vv[3],
 					$vv[4],
@@ -57,6 +63,7 @@ class InstorageService
 				$product->num +=  $param['num'][$k];
 				$product->save();
 			}
+
 			$order->res = json_encode( $temp );
 			// dump( $order->res );
 			// $order->res 		= $param['res'];

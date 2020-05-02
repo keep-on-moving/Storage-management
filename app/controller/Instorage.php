@@ -16,7 +16,6 @@ class Instorage extends Base
 
     public function index()
     {
-        $list =  $this->service->page();
         $this->assign(['list'  =>  $this->service->page()]);
         return view();
     }
