@@ -50,5 +50,17 @@ class Product extends Base
     public function delete($id){
         return $this->service->delete($id);
     }
-    
+
+    public function packing($id){
+        $units = db('unit')->where('status', 0)->select();
+//        $this->assign( $this->service->_init() );
+        $this->assign('units', $units);
+        $this->assign(['info'  =>  $this->service->edit($id)]);
+
+        return view();
+    }
+
+    public function pack(){
+        return $this->service->pack();
+    }
 }

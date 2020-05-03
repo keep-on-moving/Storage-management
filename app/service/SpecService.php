@@ -1,5 +1,7 @@
 <?php
 namespace app\service;
+
+use app\model\Spec;
 use think\Request,
 	app\model\Unit,
 	app\model\Product,
@@ -10,7 +12,7 @@ use think\Request,
 	app\model\Location,
 	app\validate\ProductValidate;
 
-class ProductService{
+class SpecService{
 
     public function page(){
 
@@ -18,11 +20,11 @@ class ProductService{
     	$where 	= [];
 
     	//封装where查询条件
-    	(empty($data['status']) || $data['status'] == '')	|| $where['status'] = $data['status'];
-    	empty($data['name'])	|| $where['name']			= 	['like','%'.$data['name'] ];
-    	empty($data['sn'])		|| $where['sn'] 			= 	$data['sn'];
+//    	(empty($data['status']) || $data['status'] == '')	|| $where['status'] = $data['status'];
+//    	empty($data['spec_name'])	|| $where['spec_name']			= 	['like','%'.$data['spec_name'] ];
+//    	empty($data['sn'])		|| $where['sn'] 			= 	$data['sn'];
 
-        return Product::where($where)->order('id', 'desc')->paginate(10);
+        return Spec::where($where)->order('id', 'desc')->paginate(10);
     }
 
 
@@ -48,30 +50,19 @@ class ProductService{
 
 		if( is_null( $error ) ){
 
-			if( Product::get(['name' => $param['name'] ]) ){
+			if( Spec::get(['spec_name' => $param['spec_name'], 'product_id' => $param['product_id'] ]) ){
 				return ['error'	=>	100,'msg'	=>	'名称已经存在'];
 				exit();	
 			}
 
-			$product 			= new Product();
-			$product->sn 		= $param['sn'];
-			$product->nbsn 		= $param['nbsn'];
-			$product->cjsn 		= $param['cjsn'];
-			$product->name 		= $param['name'];
-			$product->category 	= $param['category'];
-			$product->storage 	= $param['storage'];
-			$product->location 	= $param['location'];
-			$product->unit 		= $param['unit'];
-			$product->supplier 	= $param['supplier'];
-			$product->customer 	= $param['customer'];
-			$product->spec 		= $param['spec'];
-			$product->price 	= $param['price'];
-			$product->desc 		= $param['desc'];
-			// $product->status 	= $param['status'];
-			$product->add_time 	= time();
+			$spec 			= new Spec();
+			$spec->product_id 		= $param['product_id'];
+			$spec->spec_name 		= $param['spec_name'];
+			$spec->spec_num 		= $param['spec_num'];
+			$spec->add_time 	= date('Y-m-d H:i:s');
 
 			// 检测错误
-			if( $product->save() ){
+			if( $spec->save() ){
 				return ['error'	=>	0,'msg'	=>	'保存成功'];
 			}else{
 				return ['error'	=>	100,'msg'	=>	'保存失败'];	
@@ -166,7 +157,7 @@ class ProductService{
     // 验证器
     private function _validate($data){
 		// 验证
-		$validate = validate('ProductValidate');
+		$validate = validate('SpecValidate');
 		if(!$validate->check($data)){
 			return $validate->getError();
 		}

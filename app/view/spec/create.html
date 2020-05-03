@@ -1,0 +1,33 @@
+
+
+
+<form class="validate add-form" novalidate="novalidate" style="width: auto">
+
+	<div class="row">	
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="field-2" class="control-label">规格名称</label>
+				<input type="text" class="form-control" name="spec_name" placeholder="请填写规格名称">
+			</div>	
+		</div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="field-2" class="control-label">个数</label>
+                <input type="text" class="form-control" name="spec_num" placeholder="请填写需要的规格数量">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">所属产品</label>
+                <select class="form-control" name="product_id">
+                    {volist name='products' id='vo'}
+                    <option value="{$vo->id}" >{$vo->name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+	</div>
+	
+</form>

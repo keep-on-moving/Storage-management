@@ -1,0 +1,67 @@
+	<!-- Imported scripts on this page -->
+<!-- 	<script src="/static/js/jquery-validate/jquery.validate.min.js"></script>
+	<link rel="stylesheet" href="/static/css/xenon-forms.css"> -->
+
+
+
+
+<form class="validate pack_from" novalidate="novalidate">
+	<input type="hidden" name="id" value="{$info.id}">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="field-2" class="control-label">个数1</label>
+				<input type="text" class="form-control" name="unit1_num" value="{$info.unit1_num}" maxlength="8">
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="control-label">单位1</label>
+				<select class="form-control" name="unit1">
+					{volist name='units' id='vo'}
+					<option value="{$vo.id}" {eq name="$info.unit1" value="$vo.id"} selected="selected" {/eq} >{$vo.name}</option>
+					{/volist}
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="field-2" class="control-label">个数2</label>
+				<input type="text" class="form-control" name="unit2_num" value="{$info.unit2_num}" maxlength="8">
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="control-label">单位2</label>
+				<select class="form-control" name="unit2">
+					{volist name='units' id='vo'}
+					<option value="{$vo.id}" {eq name="$info.unit2" value="$vo.id"} selected="selected" {/eq} >{$vo.name}</option>
+					{/volist}
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="field-2" class="control-label">个数3</label>
+				<input type="text" class="form-control" name="unit3_num" value="{$info.unit3_num}" maxlength="8">
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="control-label">单位3</label>
+				<select class="form-control" name="unit3">
+					{volist name='units' id='vo'}
+					<option value="{$vo.id}" {eq name="$info.unit3" value="$vo.id"} selected="selected" {/eq} >{$vo.name}</option>
+					{/volist}
+				</select>
+			</div>
+		</div>
+	</div>
+
+</form>
