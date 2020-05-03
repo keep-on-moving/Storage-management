@@ -1,0 +1,44 @@
+
+
+
+<form class="validate add-form" novalidate="novalidate" style="width: auto">
+
+	<div class="row">	
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="field-2" class="control-label">角色名称</label>
+				<input type="text" class="form-control" name="role_name" placeholder="请填写角色名称">
+			</div>	
+		</div>
+        <div class="col-md-12"> </div>
+	</div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="field-2" class="control-label">权限分配</label>
+            </div>
+        </div>
+        <div class="col-md-12"> </div>
+    </div>
+    <div class="row">
+        {volist name='menus' id='vo'}
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="checkbox" name="menu_list[]"  value="{$vo.id}">{$vo.name}
+            </div>
+        </div>
+        {/volist}
+    </div>
+
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group no-margin">
+				<label for="field-7" class="control-label">角色描述</label>
+				<textarea class="form-control autogrow" name="role_desc" placeholder="请填写角色描述" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;"></textarea>
+			</div>	
+		</div>
+	</div>
+	
+</form>

@@ -1,0 +1,43 @@
+
+
+
+<form class="validate add-form" novalidate="novalidate" style="width: auto">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">用户名</label>
+                <input type="text" class="form-control" name="username" placeholder="{$info.username}" maxlength="25" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">手机号</label>
+                <input type="text" class="form-control" name="phone" placeholder="{$info.phone}" disabled="disabled">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">真实姓名</label>
+                <input type="text" class="form-control" name="truename" placeholder="{$info.truename}" maxlength="8" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">角色</label>
+                <select class="form-control" name="role_id" disabled="disabled">
+                    <option value="默认"  selected ='selected' >{$info.role_name}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group no-margin">
+                <label for="field-7" class="control-label">备注</label>
+                <textarea class="form-control autogrow" name="desc" placeholder="备注" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;" disabled="disabled">{$info.desc}</textarea>
+            </div>
+        </div>
+    </div>
+</form>

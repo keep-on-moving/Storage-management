@@ -1,0 +1,55 @@
+
+
+
+<form class="validate edit_from" novalidate="novalidate" style="width: auto">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="field-2" class="control-label">用户名</label>
+				<input type="text" class="form-control" name="username" value="{$info.username}" maxlength="25" >
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="field-2" class="control-label">密码</label>
+				<input type="password" class="form-control" name="password" value="{$info.password}">
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="field-2" class="control-label">手机号</label>
+				<input type="text" class="form-control" name="phone" value="{$info.phone}" >
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="field-2" class="control-label">真实姓名</label>
+				<input type="text" class="form-control" name="truename" value="{$info.truename}" maxlength="8" >
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="form-group">
+				<label class="control-label">角色</label>
+				<select class="form-control" name="role_id">
+					<option value="默认" >默认</option>
+					{volist name='roles' id='vo'}
+					<option value="{$vo.id}"  {eq name="vo.selected" value= '1'} selected="selected" {/eq}>{$vo.role_name}</option>
+					{/volist}
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group no-margin">
+				<label for="field-7" class="control-label">备注</label>
+				<textarea class="form-control autogrow" name="desc" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;" >{$info.desc}</textarea>
+			</div>
+		</div>
+	</div>
+
+	<input type="hidden" name="id" value="{$info.id}">
+</form>
