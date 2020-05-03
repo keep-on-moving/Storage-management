@@ -4,6 +4,7 @@ use app\service\InstorageService,
     app\model\Product,
     app\model\Supplier,
     app\model\Order;
+use think\Request;
 
 class Instorage extends Base
 {
@@ -26,6 +27,14 @@ class Instorage extends Base
             'product'    =>  Product::all(  [ 'status' => 0 ] ),
             'supplier'   =>  Supplier::all(  [ 'status' => 0 ] ),
         ]);
+        return view();
+    }
+
+    public function spec(){
+        $data 	= Request::instance()->get();
+        $specs = \db('product_spec')->where('product_id', $data['product_id'])->select();
+        $this->assign('specs', $specs);
+
         return view();
     }
 

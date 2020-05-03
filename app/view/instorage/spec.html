@@ -1,0 +1,27 @@
+       <thead>
+            <tr role="row">
+                <th class="sorting_disabled" rowspan="1" colspan="1">
+                    规格名称
+                </th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">
+                    入库数
+                </th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">
+                    有效期
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {volist name='specs' id='vo'}
+                <tr role="row" class="odd order-list">
+                    <td class="col-md-2">
+                        <input type="text" class="form-control" value="{$vo.spec_name}" name="spec_name[]" disabled="disabled"> 
+                        <input type="hidden" value="{$vo.id}" name="spec_id[]">
+                    </td>
+                    <td>
+                    <input type="text" class="form-control" value="" name="num[]">
+                    </td>
+                    <td class="col-md-2"><input type="date" class="form-control" value="" name="time[]" ></td>
+                </tr>
+            {/volist}
+        </tbody>

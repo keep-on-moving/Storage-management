@@ -47,7 +47,10 @@ class Spec extends Base
 
     public function edit($id)
     {
-        $this->assign(['info'  =>  $this->service->edit($id)]);   
+        $this->assign([
+            'info'  =>  $this->service->edit($id),
+            'products'    =>  Product::all(  [ 'status' => 0 ] )
+        ]);   
         return view();
     }
 

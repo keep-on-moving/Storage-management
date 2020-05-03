@@ -23,8 +23,8 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="control-label">入库类型</label>
-                <select class="form-control" name="type">
-                    <option value="采购入库" >采购入库</option>
+                <select class="form-control" name="type" onchange="typeChange(this)">
+                    <option value="采购入库" selected="selected">采购入库</option>
                     <option value="销售退货" >销售退货</option>
                 </select>
             </div>
@@ -55,11 +55,64 @@
                 <input type="text" class="form-control" name="instorage_checker_b" placeholder="入库复核人员B" value="{$my_info->truename}">
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">产品名称--先选择产品在选规格</label>
+                <select class="form-control" name="product_id" onchange="changeProduct(this)" id="checkedProduct">
+                    <option value="默认" >默认</option>
+                    {volist name='product' id='vo'}
+                    <option value="{$vo.id}">{$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
         
     </div>
 
-    <table class="table table-striped table-bordered table-hover dataTable no-footer">
-        <thead>
+    <div class="row" id="return_product" style="display:none">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">退货数</label>
+                <input type="text" class="form-control" name="return_num" placeholder="请输入退货数">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">保质期</label>
+                <input type="date" class="form-control" name="effective_time" placeholder="请输入保质期">
+            </div>
+        </div>  
+    </div>
+    <script>
+
+        function changeProduct(obj){
+            var product_id = $(obj).val();
+            var url = "{:url('Instorage/spec')}"+"?product_id="+product_id;
+            jQuery.ajax({
+                url: url,
+                success: function(response)
+                {
+                    jQuery('#spec_table').html(response);
+                }
+            });
+        }
+
+        function typeChange(obj){
+            var type = $(obj).val();
+            if(type == '采购入库'){
+                var checkedProduct = jQuery('#checkedProduct');
+                changeProduct(checkedProduct);
+                jQuery('#return_product').hide();
+            }else{
+                jQuery('#spec_table').html('');
+                jQuery('#return_product').show();
+            }
+
+        }
+    </script>
+
+    <table class="table table-striped table-bordered table-hover dataTable " id="spec_table">
+        <!-- <thead>
             <tr role="row">
                 <th></th>
                 <th class="sorting_disabled" rowspan="1" colspan="1">
@@ -88,9 +141,6 @@
                 </td>
                 <td>
                 <input type="text" class="form-control" value="" name="num[]">
-<!--                <input type="text"  value="1" name="num1[]" style="width: 10%; text-align: center">&nbsp;&nbsp;&nbsp;件&nbsp;&nbsp;&nbsp;-->
-<!--                    <input type="text" value="1" name="num2[]" style="width: 10%; text-align: center;"> &nbsp;&nbsp;&nbsp;件&nbsp;&nbsp;&nbsp;-->
-<!--                    <input type="text" value="1" name="num3[]" style="width: 10%; text-align: center"> &nbsp;&nbsp;&nbsp;件-->
                 </td>
                 <td class="col-md-2"><input type="date" class="form-control" value="" name="time[]" ></td>
                 <td class="col-md-2">
@@ -98,15 +148,15 @@
                 </td>
             </tr>
 
-        </tbody>
+        </tbody> -->
     </table>
 
 
 
 
-	<div class="row">
+	<div class="row" style="padding-top: 20px;">
 		<div class="col-md-12">
-			<div class="form-group no-margin">
+			<div class="form-group">
 				<label for="field-7" class="control-label">备注</label>
 				<textarea class="form-control autogrow" name="desc" placeholder="备注" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;"></textarea>
 			</div>	

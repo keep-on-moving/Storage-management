@@ -20,11 +20,17 @@ class SpecService{
     	$where 	= [];
 
     	//封装where查询条件
-//    	(empty($data['status']) || $data['status'] == '')	|| $where['status'] = $data['status'];
-//    	empty($data['spec_name'])	|| $where['spec_name']			= 	['like','%'.$data['spec_name'] ];
-//    	empty($data['sn'])		|| $where['sn'] 			= 	$data['sn'];
+		if(isset($data['spec_name']) && $data['spec_name']){
+			$where['s.spec_name'] = ['like','%'.$data['spec_name'].'%' ];
+		}
+		
+		if(isset($data['product_name']) && $data['product_name']){
+			$where['p.name'] = ['like','%'.$data['product_name'].'%' ];
+		}
 
-        return Spec::where($where)->order('id', 'desc')->paginate(10);
+		$sepc = new Spec(); 
+
+        return $sepc->getIndex($where);
     }
 
 
@@ -74,32 +80,8 @@ class SpecService{
 
     }
 
-    public function pack(){
-        Request::instance()->isPost() || die('request not  post!');
-        $param = Request::instance()->param();	//获取参数
-
-        $product = Product::get($param['id']);
-        $product->unit1 		= $param['unit1'];
-        $product->unit1_num 		= $param['unit1_num'];
-
-        $product->unit2 		= $param['unit2'];
-        $product->unit2_num 		= $param['unit2_num'];
-
-        $product->unit3 		= $param['unit3'];
-        $product->unit3_num 		= $param['unit3_num'];
-
-        // 检测错误
-        if( $product->save() ){
-            return ['error'	=>	0,'msg'	=>	'包装成功'];
-        }else{
-            return ['error'	=>	100,'msg'	=>	'包装失败'];
-        }
-
-    }
-
-
     public function edit($id){
-    	return Product::get($id);
+    	return Spec::get($id);
     }
 
 
@@ -111,24 +93,14 @@ class SpecService{
 
 		if( is_null( $error ) ){
 
-			$product = Product::get($param['id']);
-			$product->sn 		= $param['sn'];
-			$product->nbsn 		= $param['nbsn'];
-			$product->cjsn 		= $param['cjsn'];
-			$product->name 		= $param['name'];
-			$product->category 	= $param['category'];
-			$product->storage 	= $param['storage'];
-			$product->location 	= $param['location'];
-			$product->unit 		= $param['unit'];
-			$product->supplier 	= $param['supplier'];
-			$product->customer 	= $param['customer'];
-			$product->spec 		= $param['spec'];
-			$product->price 	= $param['price'];
-			$product->desc 		= $param['desc'];
-			$product->status 	= $param['status'];
+			$spec = Spec::get($param['id']);
+			$spec->product_id 		= $param['product_id'];
+			$spec->spec_name 		= $param['spec_name'];
+			$spec->spec_num 		= $param['spec_num'];
+			$spec->add_time 	= date('Y-m-d H:i:s');
 
 			// 检测错误
-			if( $product->save() ){
+			if( $spec->save() ){
 				return ['error'	=>	0,'msg'	=>	'修改成功'];
 			}else{
 				return ['error'	=>	100,'msg'	=>	'修改失败'];	
@@ -141,16 +113,11 @@ class SpecService{
     }
 
     public function delete($id){
-    	if( Product::destroy($id) ){
+    	if( Spec::destroy($id) ){
     		return ['error'	=>	0,'msg'	=>	'删除成功'];
     	}else{
     		return ['error'	=>	100,'msg'	=>	'删除失败'];	
     	}
-
-		// 支持批量删除多个数据
-		// User::destroy('1,2,3');
-		// // 或者
-		// User::destroy([1,2,3]);
     }
 
 
