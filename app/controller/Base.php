@@ -1,5 +1,6 @@
 <?php
 namespace app\controller;
+
 use think\Controller,
 	think\Session,
 	app\model\User,
@@ -12,14 +13,22 @@ class Base extends Controller
     	if( !Session::get('uid','think') ){
             return $this->redirect("Login/index"); 
         }
+
+    	$info = \app\model\Rule::get(['id' => Session::get('uid','think') ]);
+    	$role = db('admin_role')->find($info['role_id']);
+    	$child = explode(',', $role['menu_list']);
         $service = new MenuService();
 
-        $_menuList['father'] = $service->getFather();
-        $_menuList['child'] = $service->getChild();
+        $_menuList['child'] = $service->getChild($child);
+        $father = [];
+        foreach ($_menuList['child'] as $value){
+            $father[] = $value['pid'];
+        }
+        $_menuList['father'] = $service->getFather($father);
 
 
         $this->assign([
-        	'my_info'	=>	User::get(['id' => Session::get('uid','think') ]),
+        	'my_info'	=>	$info,
             '_menuList' =>   $_menuList
         ]);
 

@@ -1,0 +1,48 @@
+
+<form class="validate add-form" novalidate="novalidate" style="width: auto">
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">真实姓名</label>
+                <input type="text" class="form-control" name="truename" placeholder="请输入新员工姓名" maxlength="8">
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">手机号</label>
+                <input type="text" class="form-control" name="phone" placeholder="请输入新增员工手机号">
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">邮箱</label>
+                <input type="text" class="form-control" name="email" placeholder="请输入新员工邮箱">
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">部门</label>
+                <select class="form-control" name="department">
+                    <option value="默认" >默认</option>
+                    {volist name='departments' key='k' id='vo'}
+                    <option value="{$k}" {eq name="k" value= "$Request.get.department" } selected="selected" {/eq}>{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group no-margin">
+                <label for="field-7" class="control-label">备注</label>
+                <textarea class="form-control autogrow" name="desc" placeholder="备注" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;"></textarea>
+            </div>
+        </div>
+    </div>
+</form>

@@ -243,4 +243,9 @@ return [
         'var_page'  => 'page',
         'list_rows' => 100,
     ],
+    'department' => [
+        1 => '运营部',
+        2 => '技术部',
+        3 => '产品部'
+     ]
 ];

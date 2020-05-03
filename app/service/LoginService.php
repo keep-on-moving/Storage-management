@@ -1,5 +1,7 @@
 <?php
 namespace app\service;
+
+use app\model\Rule;
 use think\Request,
 	think\Session,
 	app\model\User;
@@ -13,7 +15,7 @@ class LoginService
     	
     	//获取参数
 		$param = Request::instance()->param();
-    	$user  = User::get(['username' => $param['username'] ]);
+    	$user  = Rule::get(['username' => $param['username'] ]);
 
     	//检测用户是否存在
     	if( is_null($user) ){
