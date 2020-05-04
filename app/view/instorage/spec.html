@@ -15,8 +15,9 @@
             {volist name='specs' id='vo'}
                 <tr role="row" class="odd order-list">
                     <td class="col-md-2">
-                        <input type="text" class="form-control" value="{$vo.spec_name}" name="spec_name[]" disabled="disabled"> 
+                        <input type="text" class="form-control" value="{$vo.spec_name}"  disabled="disabled">
                         <input type="hidden" value="{$vo.id}" name="spec_id[]">
+                        <input type="hidden" value="{$vo.spec_name}" name="spec_name[]">
                     </td>
                     <td>
                     <input type="text" class="form-control" value="" name="num[]">

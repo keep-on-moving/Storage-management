@@ -73,13 +73,10 @@
                     <table class="table table-striped table-bordered table-hover dataTable no-footer">
                         <thead>
                             <tr role="row">
-                                <th>产品名称</th>
-                                <th>产品编号</th>
+                                <th>规格ID</th>
+                                <th>规格名称</th>
                                 <th>入库数</th>
-                                <th>单价</th>
-                                <th>仓库</th>
-                                <th>单位</th>
-                                <th>总价</th>
+                                <th>有效期</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -101,15 +98,6 @@
                                     </td>                                    
                                     <td>
                                         <label class="control-label">{$v[3]}</label>
-                                    </td>
-                                    <td>
-                                        <label class="control-label">{$v[4]}</label>
-                                    </td>
-                                    <td>
-                                        <label class="control-label">{$v[5]}</label>
-                                    </td>
-                                    <td>
-                                        <label class="control-label">{$v[2]*$v[3]}</label>
                                     </td>
                                 </tr>
                              <?php endforeach; ?>

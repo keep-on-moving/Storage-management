@@ -230,11 +230,13 @@
                                 <td> {$vo.type} </td>
                                 <td> {:date('Y-m-d H:i:s',$vo->add_time)} </td>
                                 <td>
-                                    <!-- <a href="javascript:;" 
-                                        class="btn btn-secondary btn-sm btn-icon icon-left" 
-                                        onclick="editAjaxModal('{:url('/Instorage/edit/id/'.$vo->id)}')" >
-                                        编辑
-                                    </a> -->
+                                    {eq name="vo.canEdit" value="1"}
+                                        <a href="javascript:;"
+                                            class="btn btn-secondary btn-sm btn-icon icon-left"
+                                            onclick="editAjaxModal('{:url('/Instorage/edit/id/'.$vo->id)}')">
+                                            编辑
+                                        </a>
+                                    {/eq}
 
                                     <a href="{:url('/Instorage/prints/id/'.$vo->id)}" target="_blank" class="btn btn-secondary btn-sm btn-icon icon-left">
                                         打印
@@ -244,10 +246,11 @@
                                         查看
                                     </a>
 
-                                    <a href="javascript:;" class="btn btn-danger btn-sm btn-icon icon-left" onclick="del('{$vo.id}')">
-                                        删除
-                                    </a>
-
+                                    {eq name="vo.canDel" value= "1"}
+                                        <a href="javascript:;" class="btn btn-danger btn-sm btn-icon icon-left" onclick="del('{$vo.id}')">
+                                            删除
+                                        </a>
+                                    {/eq}
                                 </td>
                             </tr>
                         {/volist}

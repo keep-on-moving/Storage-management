@@ -47,17 +47,42 @@
                 <label class="control-label">入库审核人B</label>
                 <input type="text" class="form-control" name="type" placeholder="入库类型" value="{$info.instorage_checker_b}" disabled="disabled"> 
             </div>
-        </div>  
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">产品名称--先选择产品在选规格</label>
+                <select class="form-control" name="product_id" disabled="disabled">
+                    <option value="默认" >默认</option>
+                    {volist name='product' id='vo'}
+                    <option value="{$vo.id}" {eq name="vo.id" value= "$info.product_id"} selected="selected" {/eq}>{$vo.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="return_product" {eq name="$info.type" value= "采购入库"} style="display:none" {/eq}>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">退货数</label>
+                <input type="text" class="form-control" name="return_num" value="{$info.return_num}" disabled="disabled">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-2" class="control-label">保质期</label>
+                <input type="date" class="form-control" name="effective_time" value="{$info.effective_time}" disabled="disabled">
+            </div>
+        </div>
     </div>
 
 
-
-    <table class="table table-striped table-bordered table-hover dataTable no-footer">
+    <table class="table table-striped table-bordered table-hover dataTable no-footer"  {eq name="$info.type" value= "销售退货"} style="display:none" {/eq}>
         <thead>
             <tr role="row">
-                <th>产品编号</th>
+                <th>规格id</th>
                 <th class="sorting_disabled" rowspan="1" colspan="1">
-                    产品名称
+                    规格名称
                 </th>
                 <th class="sorting_disabled" rowspan="1" colspan="1">
                     入库数
@@ -77,13 +102,13 @@
 
                 <tr role="row" class="odd">
                     <td>
-                         <input type="text" class="form-control" value="{$v[0]}" disabled="disabled"> 
+                         <input type="text" class="form-control" style="text-align: center" value="{$v[0]}" disabled="disabled">
                     </td>
                     <td> 
-                        <input type="text" class="form-control" value="{$v[1]}" disabled="disabled"> 
+                        <input type="text" class="form-control" style="text-align: center" value="{$v[1]}" disabled="disabled">
                     </td>
-                    <td><input type="text" class="form-control" value="{$v[2]}" disabled="disabled"></td>
-                    <td><input type="text" class="form-control" value="{$v[3]}" disabled="disabled"></td>
+                    <td><input type="text" class="form-control" style="text-align: center"  value="{$v[2]}" disabled="disabled"></td>
+                    <td><input type="text" class="form-control" style="text-align: center"  value="{$v[3]}" disabled="disabled"></td>
 
                 </tr>
              <?php endforeach; ?>
@@ -96,11 +121,21 @@
 		<div class="col-md-12">
 			<div class="form-group no-margin">
 				<label for="field-7" class="control-label">备注</label>
-				<textarea class="form-control autogrow" name="desc" placeholder="备注" disabled="disabled"
+				<textarea class="form-control autogrow" name="desc"disabled="disabled"
                 style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;">{$info.desc}</textarea>
 			</div>	
 		</div>
 	</div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group no-margin">
+                <label for="field-7" class="control-label">初步统计</label>
+                <textarea class="form-control autogrow" name="desc" disabled="disabled"
+                          style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;">{$info.expected_num}</textarea>
+            </div>
+        </div>
+    </div>
 
 	
 </form>
