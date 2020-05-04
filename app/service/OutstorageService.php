@@ -20,7 +20,21 @@ class OutstorageService
 
     	$where['state'] 		= 	2;
 
-        return Order::where($where)->order('id', 'desc')->paginate(10000);     
+		$data = Order::where($where)->order('id', 'desc')->paginate(10000);
+		foreach ($data as $key => $val){
+		    if(time() > ($val['add_time']+24*3600*2)){
+		        $data[$key]['canDel'] = 0;
+		        $data[$key]['canEdit'] = 0;
+            }else{
+		        $data[$key]['canDel'] = 1;
+                $data[$key]['canEdit'] = 1;
+                if(time() > ($val['add_time']+24*3600)){
+                    $data[$key]['canEdit'] = 0;
+                }
+            }
+		}
+		
+		return $data;
     }
 
     // 保存数据
@@ -46,18 +60,10 @@ class OutstorageService
 			$order->add_time	= time();
 
 			$temp = [];
+			$productModel = new Product();
+        
 			foreach ( $param['product'] as $k=>$v) {
 				$vv = explode('_',$v);
-				$temp[] =  [
-					$vv[0],
-					$vv[1],
-					$param['num'][$k],
-					$param['time'][$k],
-					$vv[2],
-					$vv[3],
-					$vv[4],
-				 ];
-
 				$product = Product::get([ 'sn' => $vv[0] ]);
 				$pNum = $product->num;
 				$product->num =  $pNum - $param['num'][$k];
@@ -65,7 +71,18 @@ class OutstorageService
 					return ['error'	=>	100,'msg'	=>	'保存失败:'.$product->name.'仅有'.$pNum.$product->unit."低于要出库个数！"];
 				}
 				$product->save();
+				$temp[] =  [
+					$vv[0],
+					$vv[1],
+					$param['num'][$k],
+					$param['time'][$k],
+					$productModel->changeUnit($product->id, $param['num'][$k]),
+					$vv[2],
+					$vv[3],
+					$vv[4],
+				];
 			}
+
 			$order->res = json_encode( $temp );
 			// dump( $order->res );
 			// $order->res 		= $param['res'];
@@ -99,13 +116,45 @@ class OutstorageService
 		if( is_null( $error ) ){
 
 			$order = Order::get($param['id']);
+			if (time() > ($order['add_time'] + 24*3600)){
+                return ['error'	=>	100,'msg' => '订单已经生成24小时，不支持修改！'];
+            }
 			$order->sn 			= $param['sn'];
-			$order->res 		= $param['res'];
 			$order->type 		= $param['type'];
 			$order->desc 		= $param['desc'];
 			$order->author 		= $param['author'];
 			$order->supplier 	= $param['supplier'];
-			$order->state 		= 1;
+			$order->outstorage_checker = $param['outstorage_checker'];
+			$order->outstorage_curator = $param['outstorage_curator'];
+			$order->outstorage_consignee = $param['outstorage_consignee'];
+			$order->state 		= 2;
+
+			$temp = [];
+			$productModel = new Product();
+		
+			//todo 先还回库存
+			foreach ( $param['product'] as $k=>$v) {
+				$vv = explode('_',$v);
+				$product = Product::get([ 'sn' => $vv[0] ]);
+				$pNum = $product->num;
+				$product->num =  $pNum - $param['num'][$k];
+				if($product->num < 0){
+					return ['error'	=>	100,'msg'	=>	'保存失败:'.$product->name.'仅有'.$pNum.$product->unit."低于要出库个数！"];
+				}
+				$product->save();
+				$temp[] =  [
+					$vv[0],
+					$vv[1],
+					$param['num'][$k],
+					$param['time'][$k],
+					$productModel->changeUnit($product->id, $param['num'][$k]),
+					$vv[2],
+					$vv[3],
+					$vv[4],
+				];
+			}
+			
+			$order->res = json_encode( $temp );
 
 			// 检测错误
 			if( $order->save() ){
@@ -121,6 +170,10 @@ class OutstorageService
     }
 
     public function delete($id){
+		$order = Order::get($id);
+		if (time() > ($order['add_time'] + 24*3600*2)){
+            return ['error'	=>	100,'msg' => '订单已经生成48小时，不支持删除！'];
+        }
     	if( Order::destroy($id) ){
     		return ['error'	=>	0,'msg'	=>	'删除成功'];
     	}else{

@@ -160,6 +160,7 @@ class InstorageService
 
             $temp = [];
 
+            //todo 先还回库存
             foreach ( $param['spec_id'] as $k=>$v) {
                 $temp[] =  [
                     $v,

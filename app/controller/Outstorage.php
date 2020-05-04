@@ -46,7 +46,12 @@ class Outstorage extends Base
 
     public function edit($id)
     {
-        $this->assign(['info'  =>  $this->service->edit($id)]);   
+        $this->assign([
+            'info'  =>  $this->service->edit($id),
+            'product'    =>  Product::all(  [ 'status' => 0 ] ),
+            'supplier'   =>  Supplier::all(  [ 'status' => 0 ] ),
+        ]);
+           
         return view();
     }
 

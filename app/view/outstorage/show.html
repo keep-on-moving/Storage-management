@@ -70,6 +70,9 @@
                 <th class="sorting_disabled" rowspan="1" colspan="1">
                     保质期
                 </th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">
+                    包装
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -81,16 +84,19 @@
 
                 <tr role="row" class="odd">
                     <td>
-                        <input type="text" class="form-control" value="{$v[0]}" disabled="disabled"> 
+                        <input type="text" class="form-control" style="text-align:center;" value="{$v[0]}" disabled="disabled"> 
                     </td>
                     <td> 
-                        <input type="text" class="form-control" value="{$v[1]}" disabled="disabled"> 
+                        <input type="text" class="form-control" style="text-align:center;" value="{$v[1]}" disabled="disabled"> 
                     </td>
                     <td>
-                        <input type="text" class="form-control" value="{$v[2]}" disabled="disabled">
+                        <input type="text" class="form-control" style="text-align:center;" value="{$v[2]}" disabled="disabled">
                     </td>
                     <td>
-                        <input type="text" class="form-control" value="{$v[3]}" disabled="disabled">
+                        <input type="text" class="form-control" style="text-align:center;" value="{$v[3]}" disabled="disabled">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" style="text-align:center;" value="{$v[4]}" disabled="disabled">
                     </td>
                 </tr>
              <?php endforeach; ?>
