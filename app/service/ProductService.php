@@ -88,6 +88,11 @@ class ProductService{
         $param = Request::instance()->param();	//获取参数
 
         $product = Product::get($param['id']);
+        $productUnit = db('unit')->where('name', $product->unit)->find();
+        $unitArr = [$param['unit1'], $param['unit2'], $param['unit3']];
+        if(!in_array($productUnit['id'], $unitArr)){
+            return ['error'	=>	100,'msg'	=>	'产品最小单位为'.$product->unit.'未出现在设置单位列'];
+        }
         $product->unit1 		= $param['unit1'];
         $product->unit1_num 		= $param['unit1_num'];
 
@@ -101,7 +106,7 @@ class ProductService{
         if( $product->save() ){
             return ['error'	=>	0,'msg'	=>	'包装成功'];
         }else{
-            return ['error'	=>	100,'msg'	=>	'包装失败'];
+            return ['error'	=>	100,'msg'	=>	'包装失败，请检查是否有修改项'];
         }
 
     }
