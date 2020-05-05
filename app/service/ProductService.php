@@ -91,7 +91,7 @@ class ProductService{
         $productUnit = db('unit')->where('name', $product->unit)->find();
         $unitArr = [$param['unit1'], $param['unit2'], $param['unit3']];
         if(!in_array($productUnit['id'], $unitArr)){
-            return ['error'	=>	100,'msg'	=>	'产品最小单位为'.$product->unit.'未出现在设置单位列'];
+            return ['error'	=>	100,'msg'	=>	'产品最小单位为：'.$product->unit.'，未出现在设置单位列'];
         }
         $product->unit1 		= $param['unit1'];
         $product->unit1_num 		= $param['unit1_num'];
