@@ -18,7 +18,13 @@ class OutstorageService
     	empty($data['type']) 	|| $where['type'] 	= 	$data['type'];
     	empty($data['author'])	|| $where['author']		= 	['like','%'.$data['author'] ];
     	empty($data['sn'])		|| $where['sn'] 		= 	$data['sn'];
-
+		if(isset($data['start_time']) && $data['start_time'] && isset($data['end_time']) && $data['end_time']){
+            $where['add_time'] = ['between time', [strtotime($data['start_time']), strtotime($data['end_time'])]];
+        }elseif(isset($data['start_time']) && $data['start_time']){
+            $where['add_time'] = ['>', strtotime($data['start_time'])];
+        }elseif(isset($data['end_time']) && $data['end_time']){
+            $where['add_time'] = ['<', strtotime($data['end_time'])];
+        }
     	$where['state'] 		= 	2;
 
 		$data = Order::where($where)->order('id', 'desc')->paginate(10000);

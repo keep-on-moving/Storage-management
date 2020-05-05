@@ -113,6 +113,17 @@
                                 </select>   
                             </span>
 
+                            <br>
+                            <span>
+                                <label class="control-label" style="margin-left: 10px;">开 始</label>      
+                                <input type="date" class="form-control" name="start_time" value="{$Request.get.start_time}">
+                            </span>
+
+                            <span style="margin-left: 15px;">
+                                <label class="control-label">截  止</label>      
+                                <input type="date" class="form-control" name="end_time" value="{$Request.get.end_time}">
+                            </span>
+
                             <span style="margin-left: 15px;">
                                 <button class="btn btn-default btn-primary" type="submit" style="margin-top:10px;">
                                     <span class="fa-search"></span> 搜 索
