@@ -30,8 +30,8 @@
 				<label class="control-label">部门</label>
 				<select class="form-control" name="department">
 					<option value="默认" >默认</option>
-					{volist name='departments' key='k' id='vo'}
-					<option value="{$k}" {eq name="k" value= "$info.department" } selected="selected" {/eq}>{$vo}</option>
+					{volist name='departments' id='vo'}
+					<option value="{$vo.id}" {eq name="vo.id" value= "$info.department" } selected="selected" {/eq}>{$vo.name}</option>
 					{/volist}
 				</select>
 			</div>

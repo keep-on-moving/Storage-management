@@ -1,13 +1,13 @@
 <?php
 namespace app\controller;
 use app\service\MenuService;
-use app\service\UserService;
+use app\service\DepartmentService;
 use think\Config;
 
-class User extends Base
+class Department extends Base
 {
     protected $service;
-    public function __construct(UserService $service)
+    public function __construct(DepartmentService $service)
     {
         parent::__construct();
         $this->service = $service;
@@ -15,13 +15,7 @@ class User extends Base
 
     public function index()
     {
-        $department = db('department')->select();
-        $data = [];
-        foreach ($department as $val){
-            $data[$val['id']] = $val['name'];
-        }
         $this->assign([
-            'departments'    =>  $data,
             'list'	=>	$this->service->page()
         ]);
 
@@ -29,7 +23,7 @@ class User extends Base
     }
 
     public function create(){
-        $department = db('department')->select();
+        $department = Config::get('department');
         $this->assign([
             'departments'    =>  $department
         ]);
@@ -44,10 +38,8 @@ class User extends Base
 
     public function edit($id)
     {
-        $info = db('user')->find($id);
-        $department = db('department')->select();
+        $info = db('department')->find($id);
         $this->assign([
-            'departments'    =>  $department,
             'info' => $info
         ]);
 
@@ -66,5 +58,20 @@ class User extends Base
 
     public function getList(){
     	return [];
+    }
+
+    public function show($id)
+    {
+        $info = db('user')
+            ->alias('u')
+            ->join('department d', 'd.id = u.department')
+            ->field('u.*, d.name dname')
+            ->where('d.id', $id)
+            ->select();
+        $this->assign([
+            'info'       =>  $info,
+        ]);
+
+        return view();
     }
 }

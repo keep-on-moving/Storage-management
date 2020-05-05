@@ -1,0 +1,23 @@
+
+
+
+<form class="validate edit_from" novalidate="novalidate" style="width: auto">
+	<div class="row">
+
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="field-2" class="control-label">部门名称</label>
+				<input type="text" class="form-control" name="name" value="{$info.name}" maxlength="8">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group no-margin">
+				<label for="field-7" class="control-label">备注</label>
+				<textarea class="form-control autogrow" name="desc" placeholder="备注" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;">{$info.desc}</textarea>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="id" value="{$info.id}">
+</form>

@@ -1,35 +1,26 @@
 <?php
 namespace app\service;
 
-use app\model\User;
+use app\model\Department;
 use think\Request;
-class UserService
+class DepartmentService
 {
 
     public function page(){
         $param = Request::instance()->param();
         $where = [];
-        if(isset($param['truename']) && $param['truename']){
-            $where['truename'] = $param['truename'];
+        if(isset($param['name']) && $param['name']){
+            $where['name'] = $param['name'];
         }
 
-        if(isset($param['phone']) && $param['phone']){
-            $where['phone'] = $param['phone'];
-        }
 
-        if(isset($param['department']) && $param['department']){
-            $where['department'] = $param['department'];
-        }
-
-        $where['status'] = 0;
-
-        return User::where($where)->order('id', 'desc')->paginate(10);
+        return Department::where($where)->order('id', 'desc')->paginate(10);
     }
 
     // 验证器
     private function _validate($data){
         // 验证
-        $validate = validate('UserValidate');
+        $validate = validate('DepartmentValidate');
         if(!$validate->check($data)){
             return $validate->getError();
         }
@@ -44,15 +35,9 @@ class UserService
 
 
         if( is_null( $error ) ){
-            $user 				= new User();
-            $user->truename 		= $param['truename'];
-            $user->phone 		= $param['phone'];
-            $user->email 		= $param['email'];
-            $user->department = $param['department'];
-            $user->desc = $param['desc'];
-
+            $user 				= new Department();
+            $user->name 		= $param['name'];
             if( $user->save() ){
-                db('department')->where('id', $param['department'])->setInc('num',1);
                 return ['error'	=>	0,'msg'	=>	'保存成功'];
             }else{
                 return ['error'	=>	100,'msg'	=>	'保存失败'];
@@ -70,16 +55,8 @@ class UserService
 
         if( is_null( $error ) ){
 
-            $user = User::get($param['id']);
-
-            if($user->department != $param['department']){
-                db('department')->where('id', $param['department'])->setInc('num',1);
-                db('department')->where('id', $user->department)->setDec('num',1);
-            }
-            $user->truename 		= $param['truename'];
-            $user->phone 		= $param['phone'];
-            $user->email 		= $param['email'];
-            $user->department = $param['department'];
+            $user = Department::get($param['id']);
+            $user->name 		= $param['name'];
             $user->desc = $param['desc'];
 
             // 检测错误
@@ -94,7 +71,13 @@ class UserService
     }
 
     public function delete($id){
-        if( User::destroy($id) ){
+        $count = db('user')->where('department', $id)->count();
+        if($count){
+            db('department')->where('id', $id)->update(['num' => $count]);
+            return ['error'	=>	100,'msg'	=>	'删除失败,当前部门仍有所属人员，请先将其转移部门'];
+        }
+
+        if( Department::destroy($id) ){
             return ['error'	=>	0,'msg'	=>	'删除成功'];
         }else{
             return ['error'	=>	100,'msg'	=>	'删除失败'];

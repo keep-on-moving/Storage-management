@@ -16,7 +16,7 @@ class CustomerService
     	empty($data['contact'])	|| $where['contact']		=	['like','%'.$data['contact'] ];
     	empty($data['name'])	|| $where['name']			= 	['like','%'.$data['name'] ];
     	empty($data['phone'])	|| $where['phone'] 			= 	$data['phone'];
-    	empty($data['eamil'])	|| $where['eamil'] 			= 	$data['eamil'];
+    	empty($data['email'])	|| $where['email'] 			= 	$data['email'];
     	empty($data['sn'])		|| $where['sn'] 			= 	$data['sn'];
 
         return Customer::where($where)->paginate(10);     

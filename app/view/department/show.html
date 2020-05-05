@@ -1,0 +1,31 @@
+<table class="table table-bordered table-striped" id="example-2">
+    <thead>
+    <tr>
+        <th class="no-sorting">
+            <input type="checkbox" class="cbr">
+        </th>
+        <th>真实姓名</th>
+        <th>电话</th>
+        <th>邮箱</th>
+        <th>部门</th>
+        <th>状态</th>
+    </tr>
+    </thead>
+
+    <tbody class="middle-align">
+
+    {volist name='info' id='user'}
+    <tr>
+        <td>
+            <input type="checkbox" class="cbr">
+        </td>
+        <td> {$user.truename} </td>
+        <td> {$user.phone} </td>
+        <td> {$user.email} </td>
+        <td> {$user.dname} </td>
+        <td> {$user.status==0?'正常':'禁用'} </td>
+    </tr>
+    {/volist}
+
+    </tbody>
+</table>
