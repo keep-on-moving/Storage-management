@@ -132,16 +132,24 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-6">
 			<div class="form-group">
-                <label class="control-label">产品状态</label>
-                <select class="form-control" name="status">
-                    <option value="0" {eq name="$info.status" value="0"} selected="selected" {/eq} >正常</option>
-                    <option value="1" {eq name="$info.status" value="1"} selected="selected" {/eq} >废弃</option>
-                </select>  
-			</div>	
-		</div> 
-    </div>
+				<label for="field-2" class="control-label">库存量</label>
+
+				<input type="text" class="form-control" name="num" value="{$info.num}">
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="control-label">产品状态</label>
+				<select class="form-control" name="status">
+					<option value="0" {eq name="$info.status" value="0"} selected="selected" {/eq} >正常</option>
+					<option value="1" {eq name="$info.status" value="1"} selected="selected" {/eq} >废弃</option>
+				</select>
+			</div>
+		</div>
+	</div>
 
 	<div class="row">
 		<div class="col-md-12">

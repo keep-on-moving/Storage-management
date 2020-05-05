@@ -224,7 +224,7 @@ class InstorageService
     }
 
     public function delete($id){
-        
+
         $order = Order::get($id);
 
         if (time() > ($order['add_time'] + 24*3600*2)){

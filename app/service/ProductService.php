@@ -135,6 +135,7 @@ class ProductService{
 			$product->price 	= $param['price'];
 			$product->desc 		= $param['desc'];
 			$product->status 	= $param['status'];
+			$product->num       = $param['num'];
 
 			// 检测错误
 			if( $product->save() ){
