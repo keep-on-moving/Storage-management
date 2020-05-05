@@ -1,5 +1,6 @@
 <?php
 namespace app\service;
+use think\Db;
 use think\Request,
 	app\model\Order,
 	app\model\Product,
@@ -61,13 +62,14 @@ class OutstorageService
 
 			$temp = [];
 			$productModel = new Product();
-        
+            Db::startTrans();
 			foreach ( $param['product'] as $k=>$v) {
 				$vv = explode('_',$v);
 				$product = Product::get([ 'sn' => $vv[0] ]);
 				$pNum = $product->num;
 				$product->num =  $pNum - $param['num'][$k];
 				if($product->num < 0){
+                    Db::rollback();
 					return ['error'	=>	100,'msg'	=>	'保存失败:'.$product->name.'仅有'.$pNum.$product->unit."低于要出库个数！"];
 				}
 				$product->save();
@@ -90,8 +92,10 @@ class OutstorageService
 
 			// 检测错误
 			if( $order->save() ){
+                Db::commit();
 				return ['error'	=>	0,'msg'	=>	'保存成功'];
 			}else{
+                Db::rollback();
 				return ['error'	=>	100,'msg'	=>	'保存失败'];	
 			}
 			
@@ -131,14 +135,22 @@ class OutstorageService
 
 			$temp = [];
 			$productModel = new Product();
-		
+            Db::startTrans();
 			//todo 先还回库存
+            $res = $order->res;
+            if($res){
+                $res = json_decode($res, true);
+                foreach ($res as $val){
+                    \db('product')->where('sn', $val[0])->setInc('num', $val[2]);
+                }
+            }
 			foreach ( $param['product'] as $k=>$v) {
 				$vv = explode('_',$v);
 				$product = Product::get([ 'sn' => $vv[0] ]);
 				$pNum = $product->num;
 				$product->num =  $pNum - $param['num'][$k];
 				if($product->num < 0){
+				    Db::rollback();
 					return ['error'	=>	100,'msg'	=>	'保存失败:'.$product->name.'仅有'.$pNum.$product->unit."低于要出库个数！"];
 				}
 				$product->save();
@@ -158,8 +170,10 @@ class OutstorageService
 
 			// 检测错误
 			if( $order->save() ){
+			    Db::commit();
 				return ['error'	=>	0,'msg'	=>	'修改成功'];
 			}else{
+			    Db::rollback();
 				return ['error'	=>	100,'msg'	=>	'修改失败'];	
 			}
 		}else{

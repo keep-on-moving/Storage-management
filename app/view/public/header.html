@@ -54,7 +54,7 @@
 					<div class="user-info">
 						
 						<div class="user-image">
-							<a href="extra-profile.html">
+							<a href="{:url('Rule/index')}?username={$my_info->username}">
 								<img src="/static/images/user-2.png" class="img-responsive img-circle" />
 							</a>
 						</div>
@@ -62,7 +62,7 @@
 						<div class="user-details">
 							
 							<h3>
-								<a href="extra-profile.html">{$my_info->truename}</a>
+								<a href="{:url('Rule/index')}?username={$my_info->username}">{$my_info->truename}</a>
 								
 								<!-- Available statuses: is-online, is-idle, is-busy and is-offline -->
 								<span class="user-status is-online"></span>
@@ -71,8 +71,8 @@
 							<p class="user-title">{$my_info->username}</p>
 							
 							<div class="user-links">
-								<a href="extra-profile.html" class="btn btn-primary">编辑资料</a>
-								<a href="extra-profile.html" class="btn btn-success">升级</a>
+								<a href="{:url('Rule/index')}?username={$my_info->username}" class="btn btn-primary">编辑资料</a>
+								<a href="{:url('Rule/index')}?username={$my_info->username}" class="btn btn-success">升级</a>
 							</div>
 							
 						</div>
@@ -167,11 +167,11 @@
 					
 					<!-- logo -->
 					<div class="logo">
-						<a href="dashboard-1.html" class="logo-expanded">
+						<a href="" class="logo-expanded">
 							<img src="/static/images/logo@2x.png" width="80" alt="" />
 						</a>
 						
-						<a href="dashboard-1.html" class="logo-collapsed">
+						<a href="" class="logo-collapsed">
 							<img src="/static/images/logo-collapsed@2x.png" width="40" alt="" />
 						</a>
 					</div>

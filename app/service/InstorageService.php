@@ -3,6 +3,7 @@ namespace app\service;
 
 use app\model\Spec;
 use app\validate\SpecValidate;
+use think\Db;
 use think\Request,
 	app\model\Order,
 	app\model\Product,
@@ -64,7 +65,7 @@ class InstorageService
 			$order->effective_time = $param['effective_time'];
 
 			$temp = [];
-
+            Db::startTrans();
 			foreach ( $param['spec_id'] as $k=>$v) {
 				$temp[] =  [
 				    $v,
@@ -113,14 +114,13 @@ class InstorageService
             }
 
 			$order->res = json_encode( $temp );
-			// dump( $order->res );
-			// $order->res 		= $param['res'];
-			// die();
 
 			// 检测错误
 			if( $order->save() ){
+			    Db::commit();
 				return ['error'	=>	0,'msg'	=>	'保存成功'];
 			}else{
+			    Db::rollback();
 				return ['error'	=>	100,'msg'	=>	'保存失败'];	
 			}
 			
@@ -159,8 +159,15 @@ class InstorageService
             $order->effective_time = $param['effective_time'];
 
             $temp = [];
-
+            Db::startTrans();
             //todo 先还回库存
+            $res = $order->res;
+            if($res){
+                $res = json_decode($res, true);
+                foreach ($res as $val){
+                    \db('product_spec')->where('id', $val[0])->setDec('store', $val[2]);
+                }
+            }
             foreach ( $param['spec_id'] as $k=>$v) {
                 $temp[] =  [
                     $v,
@@ -212,8 +219,10 @@ class InstorageService
 
 			// 检测错误
 			if( $order->save() ){
+			    Db::commit();
 				return ['error'	=>	0,'msg'	=>	'修改成功'];
 			}else{
+			    Db::rollback();
 				return ['error'	=>	100,'msg'	=>	'修改失败'];	
 			}
 		}else{
