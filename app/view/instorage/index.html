@@ -115,12 +115,12 @@
                             <br>
                             <span>
                                 <label class="control-label" style="margin-left: 10px;">开 始</label>      
-                                <input type="date" class="form-control" name="start_time" value="{$Request.get.start_time}">
+                                <input type="date" class="form-control" name="start_time" value="{$Request.get.start_time}" id="start_time">
                             </span>
 
                             <span style="margin-left: 15px;">
                                 <label class="control-label">截  止</label>      
-                                <input type="date" class="form-control" name="end_time" value="{$Request.get.end_time}">
+                                <input type="date" class="form-control" name="end_time" value="{$Request.get.end_time}" id="end_time">
                             </span>
 
 
@@ -139,7 +139,7 @@
                     <script type="text/javascript">
                     jQuery(document).ready(function($)
                     {
-
+                       
                         $('#example-2').DataTable( {
                             dom: 'Bfrtip',
                             bFilter: false,
@@ -184,7 +184,6 @@
                             var info = table.page.info();
                             $('#example-3_paginate').html( 'Showing page: '+info.page+' of '+info.pages );
                         } );
-
 
                         // Replace checkboxes when they appear
                         var $state = $("#example-2 thead input[type='checkbox']");
@@ -355,6 +354,18 @@
     </div>  
 
 <script type="text/javascript">
+    $('.buttons-html5').on('click', function(){
+
+        var start_time = $('#start_time').val();
+        var end_time= $('#end_time').val();
+        if(!start_time || !end_time){
+            alert('请先设置时间范围再做导出操作！');
+
+            return false;
+        }
+    });
+
+
     //add
     function showAjaxModal(){
         jQuery('#modal-add').modal('show', {backdrop: 'static'});

@@ -341,6 +341,18 @@
 
 <script type="text/javascript">
     //add
+
+    $('.buttons-html5').on('click', function(){
+
+        var start_time = $('#start_time').val();
+        var end_time= $('#end_time').val();
+        if(!start_time || !end_time){
+            alert('请先设置时间范围再做导出操作！');
+
+            return false;
+        }
+    });
+
     function showAjaxModal(){
         jQuery('#modal-add').modal('show', {backdrop: 'static'});
         

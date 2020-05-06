@@ -43,11 +43,6 @@
             <!-- Removing search and results count filter -->
             <div class="panel panel-default">
                 <div class="panel-body">
-                    
-
-        
-    
-
                     <!-- searach -->
                     <div class="btn-toolbar">
 
@@ -63,21 +58,6 @@
                             </span>
 
                             <span style="margin-left: 15px;">
-                                <label class="control-label">产品状态</label>
-                                <select class="form-control" name="status">
-                                    <option value="" 
-                                        {eq name="Request.get.status" value=" "} selected="selected" {/eq}
-                                    >全部</option>
-                                    <option value="0" 
-                                        {eq name="Request.get.status" value="0"} selected="selected" {/eq}
-                                    >正常</option>
-                                    <option value="1" 
-                                        {eq name="Request.get.status" value="1"} selected="selected" {/eq}
-                                    >废弃</option>
-                                </select>   
-                            </span>
-
-                            <span style="margin-left: 15px;">
                                 <label class="control-label">产品类型</label>
                                 <select class="form-control" name="type">
                                     <option value=""
@@ -89,21 +69,6 @@
                                     <option value="1"
                                             {eq name="Request.get.type" value="1"} selected="selected" {/eq}
                                     >材料</option>
-                                </select>
-                            </span>
-
-                            <span style="margin-left: 15px;">
-                                <label class="control-label">排序</label>
-                                <select class="form-control" name="sort">
-                                    <option value=""
-                                            {eq name="Request.get.sort" value=" "} selected="selected" {/eq}
-                                    >全部</option>
-                                    <option value="0"
-                                            {eq name="Request.get.sort" value="0"} selected="selected" {/eq}
-                                    >添加时间</option>
-                                    <option value="1"
-                                            {eq name="Request.get.sort" value="1"} selected="selected" {/eq}
-                                    >库存大小</option>
                                 </select>
                             </span>
 
@@ -131,13 +96,7 @@
                                 null,
                                 null,
                                 null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
+                                null
                             ],
                         });
                         
@@ -175,17 +134,9 @@
                                 <th class="no-sorting">
                                     <input type="checkbox" class="cbr">
                                 </th>
-                                <th>ID</th>
-                                <th>类型</th>
+                                <th>类别</th>
                                 <th>编号</th>
                                 <th>产品名称</th>
-                                <th>规格</th>
-                                <!-- <th>价格</th> -->
-                                <th>数量</th>
-                                <th>仓库</th>
-                                <th>厂商</th>
-                                <th>供应商</th>
-                                <th>状态</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -197,22 +148,14 @@
                                 <td>
                                     <input type="checkbox" class="cbr">
                                 </td>
-                                <td> {$user.id} </td>
-                                <td> {$user.type} </td>
+                                <td> {$user.category} </td>
                                 <td> {$user.sn} </td>
                                 <td> {$user.product_name} </td>
-                                <td> {$user.spec_name} </td>
-                                <!-- <td> {$user.price} </td> -->
-                                <td> {$user.store} </td>
-                                <td> {$user.storeage_location} </td>
-                                <td> {$user.supplier} </td>
-                                <td> {$user.customer} </td>
-                                <td> {$user.status==0?'正常':'废弃'} </td>
                                 <td>
                                     <a href="javascript:;"
                                        class="btn btn-secondary btn-sm btn-icon icon-left"
                                        onclick="editAjaxModal('{$user.id}', '{$user.type}')" >
-                                        编辑
+                                        预算
                                     </a>
                                 </td>
                             </tr>
@@ -273,25 +216,11 @@
                 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">编辑库存</h4>
+                    <h4 class="modal-title">预算</h4>
                 </div>
 
                 <div class="modal-body">
-                    <div class="row" id="return_product">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="field-2" class="control-label">库存数</label>
-                                <input type="text" class="form-control" name="store" placeholder="请输入新库存">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <input type="hidden" name="id" value="" id="store_id">
-                <input type="hidden" name="type" value="" id="store_type">
-                
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-info" onclick="edit_from()">确定</button>
+                    Content is loading...
                 </div>
             </div>
         </div>
@@ -330,8 +259,13 @@
     function editAjaxModal(id, type){
 
         jQuery('#modal-edit').modal('show', {backdrop: 'static'});
-        jQuery('#store_id').val(id);
-        jQuery('#store_type').val(type);
+        jQuery.ajax({
+            url: "{:url('Product/dobudget')}"+'?id='+id,
+            success: function(response)
+            {
+                jQuery('#modal-edit .modal-body').html(response);
+            }
+        });
     }
     function edit_from(){
         var res = $(".edit_from").serializeArray();

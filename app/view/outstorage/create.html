@@ -76,6 +76,9 @@
                     出库数
                 </th>
                 <th class="sorting_disabled" rowspan="1" colspan="1">
+                    单位
+                </th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">
                     有效期
                 </th>
                 <th></th>
@@ -87,13 +90,15 @@
                     <a href="javascript:void(0);" onclick="add_list(this)"> [ + ] </a> 
                 </td>
                 <td> 
-                    <select name="product[]" class="form-control">
+                    <select name="product[]" class="form-control" onchange="changeProduct(this)">
+                        <option value="">请选择商品</option>
                         {volist name='product' id='vo'}
                         <option value="{$vo.sn}_{$vo.name}_{$vo.price}_{$vo.storage}_{$vo.unit}">{$vo.name}</option>
                         {/volist}
                     </select> 
                 </td>
                 <td><input type="text" class="form-control" value="" name="num[]"></td>
+                <td><input type="text" class="form-control" value="" name="unit[]" disabled="disabled" style="text-align: center;"></td>
                 <td class="col-md-2"><input type="date" class="form-control" value="" name="time[]" ></td>
                 <td>
                 	<a class="delete" href="javascript:void(0)" onclick="del_list(this)"> [ - ] </a>
@@ -104,7 +109,13 @@
     </table>
 
 
-
+    <script>
+        function changeProduct(obj){
+            var a = $(obj).val();
+            strs=a.split("_");
+            $(obj).parent().next().next().children('input').val(strs[4]);
+        }
+    </script>
 
 	<div class="row">
 		<div class="col-md-12">

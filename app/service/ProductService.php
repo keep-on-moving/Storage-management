@@ -176,6 +176,6 @@ class ProductService{
 		if(!$validate->check($data)){
 			return $validate->getError();
 		}
-    }
+	}
 
 }

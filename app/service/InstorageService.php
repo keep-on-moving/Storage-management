@@ -79,7 +79,8 @@ class InstorageService
 				    $v,
                     $param['spec_name'][$k],
 					$param['num'][$k],
-					$param['time'][$k]
+                    $param['time'][$k],
+                    $param['unit'][$k]
 				 ];
 
 				$pec = Spec::get([ 'id' => $v ]);
@@ -164,7 +165,7 @@ class InstorageService
             $order->add_time	= time();
             $order->product_id  = $param['product_id'];
             $order->return_num  = $param['return_num'];
-            $order->effective_time = $param['effective_time'];
+            $order->effective_time = $param['effective_time'] ? $param['effective_time'] : null;
 
             $temp = [];
             Db::startTrans();
@@ -181,7 +182,8 @@ class InstorageService
                     $v,
                     $param['spec_name'][$k],
                     $param['num'][$k],
-                    $param['time'][$k]
+                    $param['time'][$k],
+                    $param['unit'][$k]
                 ];
 
                 $pec = Spec::get([ 'id' => $v ]);

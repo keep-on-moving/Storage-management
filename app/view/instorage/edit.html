@@ -130,6 +130,9 @@
 				入库数
 			</th>
 			<th class="sorting_disabled" rowspan="1" colspan="1">
+				单位
+			</th>
+			<th class="sorting_disabled" rowspan="1" colspan="1">
 				有效期
 			</th>
 		</tr>
@@ -148,6 +151,13 @@
 			</td>
 			<td>
 				<input type="text" class="form-control" value="{$v.2}" name="num[]">
+			</td>
+			<td>
+				<select class="form-control" name="unit[]">
+					<option value="个" {eq name="v.4" value= "个"} selected="selected" {/eq}>个</option>
+					<option value="千克" {eq name="v.4" value= "千克"} selected="selected" {/eq}>千克</option>
+					<option value="吨" {eq name="v.4" value= "吨"} selected="selected" {/eq}>吨</option>
+				</select>
 			</td>
 			<td class="col-md-2"><input type="date" class="form-control" value="{$v.3}" name="time[]" ></td>
 		</tr>

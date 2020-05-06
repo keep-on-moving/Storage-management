@@ -150,7 +150,6 @@
                                 null,
                                 null,
                                 null,
-                                null,
                                 {bSortable: false}
                             ],
                         });
@@ -197,7 +196,7 @@
                                 <th>邮箱</th>
                                 <th>传真</th>
                                 <th>状态</th>
-                                <th>创建时间</th>
+                                <!-- <th>创建时间</th> -->
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -217,7 +216,7 @@
                                 <td> {$user.email} </td>
                                 <td> {$user.fax} </td>
                                 <td> {$user.status==0?'正常':'废弃'} </td>
-                                <td> {:date('Y-m-d H:i',$user->add_time)} </td>
+                                <!-- <td> {:date('Y-m-d H:i',$user->add_time)} </td> -->
                                 <td>
                                     <a href="javascript:;" 
                                         class="btn btn-secondary btn-sm btn-icon icon-left" 
