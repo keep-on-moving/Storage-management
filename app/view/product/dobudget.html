@@ -21,7 +21,7 @@
        
         <div class="col-md-4">
             <div class="form-group">
-                <label for="field-2" class="control-label">单价</label>
+                <label for="field-2" class="control-label">单价(单位：元)</label>
                 <input type="text" class="form-control" name="price" value="" onkeyup="jisuanqi(this)">
             </div>  
         </div>
@@ -38,7 +38,23 @@
             var price = $(obj).val();
             var num = $('#num').val();
             var total = price * num;
+            total = returnFloat(total);
             $('#total').val(total);
+        }
+
+        function returnFloat(value){
+            var value=Math.round(parseFloat(value)*100)/100;
+            var xsd=value.toString().split(".");
+            if(xsd.length==1){
+                value=value.toString()+".00";
+                return value;
+            }
+            if(xsd.length>1){
+                if(xsd[1].length<2){
+                    value=value.toString()+"0";
+                }
+                return value;
+            }
         }
     </script>
 </form>
